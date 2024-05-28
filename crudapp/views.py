@@ -104,3 +104,27 @@ def store_user(request):
     else:
         messages.error(request, 'Password do not match')
         return redirect('/user/create')
+    
+def show_user(request, user_id):
+    user = User.objects.get(pk=user_id) #SELECT * FROM users WHERE user_id = user_id
+
+    context = {
+        'user': user,
+    }
+
+    return render(request, 'user/show.html', context)
+
+def delete_user(request, user_id):
+    user = User.objects.get(pk=user_id) #SELECT * FROM genders WHERE gender_id = gender_id
+
+    context = {
+        'user': user,
+    }
+
+    return render(request, 'user/delete.html', context)
+
+def destroy_user(request, user_id):
+    User.objects.filter(pk=user_id).delete() #DELETE FROM genders  WHERE gender_id = gender_id
+    messages.success(request, 'Gender successfully deleted.')
+    
+    return redirect('/users')
